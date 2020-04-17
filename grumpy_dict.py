@@ -16,6 +16,11 @@ class GrumpyDict(dict):
         print("OK, FINE...")
         super().__setitem__(key, value)
 
+    # Another way to check to see if something is not in the dictionary
+    def __contains__(self, item):
+        print("SORRY, IT AIN'T HERE!")
+        return False
+
 # Don't have to define an __init__ because we're inheriting from dict and utilizing MRO
 data = GrumpyDict({"first_name": "Edwin", "animal": "guinea pig"})
 print(data)
