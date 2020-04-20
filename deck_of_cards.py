@@ -23,6 +23,10 @@ class Deck:
     def __repr__(self):
         return f"Deck of {self.count()} cards"
 
+    # Iterates over the deck of cards using an iterator
+    def __iter__(self):
+        return iter(self.cards)
+
     # Gets the amount of cards in the deck
     def count(self):
         return len(self.cards)
@@ -58,7 +62,8 @@ class Deck:
 # Tests...
 deck = Deck()
 deck.shuffle()
-card = deck.deal_cards()
-print(card)
-hand = deck.deal_hand(5)
-print(hand)
+
+# Iterates over the list of cards, printing each one out
+# Utilizes the __iter__ function above
+for card in deck:
+    print(card)
