@@ -5,40 +5,44 @@ from random import choice
 
 ####################################### Web Scraper ############################################
 
-all_quotes = []
-base_url = "http://quotes.toscrape.com"
-url = "/page/1"
+# All caps = constant
+BASE_URL = "http://quotes.toscrape.com"
 
-# while the url is on a given page, make a request to that page.
-while url:
 
-    res = requests.get(f"{base_url}{url}")
-    # print(f"Scraping {base_url}{url}...")
-    soup = BeautifulSoup(res.text, features="html.parser")
-    quotes = soup.find_all(class_="quote")
+def scrape_quotes():
+    url = "/page/1"
+    all_quotes = []
+    # while the url is on a given page, make a request to that page.
+    while url:
 
-    for quote in quotes:
-        all_quotes.append({
-            # all text has class of "text"
-            "text": quote.find(class_="text").get_text(),
-            # all authors have class of "author"
-            "author": quote.find(class_="author").get_text(),
-            # retrieves the link to the author's biography
-            "bio-link": quote.find("a")["href"]
-        })
+        res = requests.get(f"{BASE_URL}{url}")
+        # print(f"Scraping {BASE_URL}{url}...")
+        soup = BeautifulSoup(res.text, features="html.parser")
+        quotes = soup.find_all(class_="quote")
 
-    next_button = soup.find(class_="next")
-    # this will now be equal to the url that we'll find on the next page
-    url = next_button.find("a")["href"] if next_button else None
-    # this politely puts two seconds in-between each request -- prevents the overloading of the server
-    # sleep(2)
+        for quote in quotes:
+            all_quotes.append({
+                # all text has class of "text"
+                "text": quote.find(class_="text").get_text(),
+                # all authors have class of "author"
+                "author": quote.find(class_="author").get_text(),
+                # retrieves the link to the author's biography
+                "bio-link": quote.find("a")["href"]
+            })
+
+        next_button = soup.find(class_="next")
+        # this will now be equal to the url that we'll find on the next page
+        url = next_button.find("a")["href"] if next_button else None
+        # this politely puts two seconds in-between each request -- prevents the overloading of the server
+        # sleep(2)
+    return all_quotes
 
 ####################################### GAME LOGIC ############################################
 
 
-def start_game():
+def start_game(quotes):
     # randomly picks a quote
-    quote = choice(all_quotes)
+    quote = choice(quotes)
     remaining_guesses = 4
     print("Here's a quote: ")
     print(quote["text"])
@@ -54,7 +58,7 @@ def start_game():
         remaining_guesses -= 1
         # hint #1 = gives the author's birthday
         if remaining_guesses == 3:
-            res = requests.get(f"{base_url}{quote['bio-link']}")
+            res = requests.get(f"{BASE_URL}{quote['bio-link']}")
             soup = BeautifulSoup(res.text, features="html.parser")
             birthday = soup.find(class_="author-born-date").get_text()
             birthday_place = soup.find(
@@ -87,9 +91,10 @@ def start_game():
         play_again = input("Would you like to play again? (y/n) \n")
     if play_again.lower() in ('yes', 'y'):
         # begins the game again
-        return start_game()
+        return start_game(quotes)
     else:
         print("OK, see you later! \n")
 
 
-start_game()
+quotes = scrape_quotes()
+start_game(quotes)
