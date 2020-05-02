@@ -40,12 +40,15 @@ quote = choice(all_quotes)
 remaining_guesses = 4
 print("Here's a quote: ")
 print(quote["text"])
-print(quote["author"])
 guess = ''
 
 while guess.lower() != quote["author"].lower() and remaining_guesses > 0:
     guess = input(
         f"Who said this? You have {remaining_guesses} guesses remaining. \n")
+    # accounts for it the player guessed correctly
+    if guess.lower() == quote["author"].lower():
+        print("Well done!  You got it right!")
+        break
     remaining_guesses -= 1
     # hint #1 = gives the author's birthday
     if remaining_guesses == 3:
@@ -57,6 +60,22 @@ while guess.lower() != quote["author"].lower() and remaining_guesses > 0:
             # the retrieved text already contains the missing "in"
             f"Here's a hint: The author was born {birthday_place} on {birthday}.")
     # hint #2 = gives the author's birth location
+    elif remaining_guesses == 2:
+        first_initial = quote["author"][0]
+        a = "a"
+        if ["author"][0].lower() in ["a", "e", "f", "h", "i", "l", "m", "n", "o", "r", "s", "x"]:
+            a = "an"
+        print(
+            f"Here's another hint:  The author's first name begins with {a} {first_initial}")
     # hint #3 = gives the first letter of the author's first name
-    # hint #4 = gives the first letter of the author's last name
+    elif remaining_guesses == 1:
+        a = "a"
+        last_initial = quote["author"].split(" ")[1][0]
+        if last_initial.lower() in ["a", "e", "f", "h", "i", "l", "m", "n", "o", "r", "s", "x"]:
+            a = "an"
+        print(
+            f"Here's your last hint:  The author's last name begins with {a} {last_initial}")
+    else:
+        print(
+            f"Sorry, you ran out of guesses.  The answer is: {quote['author']}")
 print("AFTER WHILE LOOP")
