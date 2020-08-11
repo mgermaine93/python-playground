@@ -9,6 +9,7 @@ class QuotesSpider(scrapy.Spider):
     # This refers to the name of the spider
     name = "quotes"
 
+    # Loops through the URLs in the list and makes a request to each one
     def start_requests(self):
         urls = [
             'https://quotes.toscrape.com/page/1/',
@@ -17,6 +18,7 @@ class QuotesSpider(scrapy.Spider):
         for url in urls:
             yield scrapy.Request(url=url, callback=self.parse)
 
+    # This is the callback function referenced immediately above
     def parse(self, response):
         # Extracts the page number (last two characters) of the url that we're on
         page = response.url.split("/")[-2]
