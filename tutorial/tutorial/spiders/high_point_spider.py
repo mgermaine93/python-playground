@@ -3,12 +3,11 @@ import scrapy
 
 class QuotesSpider(scrapy.Spider):
     # invoke spiders by their name
-    name = "quotes"
+    name = "high_points"
     def start_requests(self):
         # the spider visits the follow urls to scrape information
         start_urls = [
-            'https://quotes.toscrape.com/page/1/',
-            'https://quotes.toscrape.com/page/2/'
+            'https://www.peakbagger.com/list.aspx?lid=12004'
         ]
         # loops through the urls in the list above and make a request using scrapy
         for url in start_urls:
@@ -17,9 +16,10 @@ class QuotesSpider(scrapy.Spider):
     
     def parse(self, response):
         # this grabs the page number listed in each url above (1, 2, etc.)
-        page = response.url.split("/")[-2]
+        # page = response.url.split("/")[-2]
         # %s is an argument to which "page" is passed
-        filename = 'quotes-%s.html' % page
+        # filename = 'high_points-%s.html' % page
+        filename = 'high_points.html'
         # this extracts the html content (body) from the page and writes it to a file
         with open(filename, 'wb') as f:
             f.write(response.body)
