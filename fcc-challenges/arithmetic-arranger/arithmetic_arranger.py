@@ -1,4 +1,4 @@
-def arithmetic_arranger(problems, answers=None):
+def arithmetic_arranger(problems, answers=False):
 
     # These are used later
     first_line = ""
@@ -11,11 +11,10 @@ def arithmetic_arranger(problems, answers=None):
 
     # These are used later
     formatted_problems = []
-    result = ""
 
     # Too many problems requirement
     if len(problems) > 5:
-        return print("Error: Too many problems.")
+        return "Error: Too many problems."
 
     # "problems" is a list of strings
     for problem in problems:
@@ -24,20 +23,20 @@ def arithmetic_arranger(problems, answers=None):
         number_of_problems_left = number_of_problems_left - 1
         
         # Break up each problem string
-        new_problem = problem.split(" ")
+        new_problem = problem.split()
         first_operand = new_problem[0]
         operator = new_problem[1]
         second_operand = new_problem[2]
 
         # Only digits requirement
         if (first_operand.isdigit() != True) or (second_operand.isdigit() != True):
-            return print("Error: Numbers must only contain digits.")
+            return "Error: Numbers must only contain digits."
         # Only 4 digits requirement
         if (len(first_operand) > 4) or (len(second_operand) > 4):
-            return print("Error: Numbers cannot be more than four digits.")
+            return "Error: Numbers cannot be more than four digits."
         # Only "+" or "-" requirement
         if (operator != "+") and (operator != "-"):
-            return print("Error: Operator must be '+' or '-'.")
+            return "Error: Operator must be '+' or '-'."
         
         # Initialize "answer", used directly below
         answer = ""
@@ -50,38 +49,26 @@ def arithmetic_arranger(problems, answers=None):
         
         # This defines how many dashes there should be at the bottom of each problem
         width_of_problem = max(len(first_operand), len(second_operand)) + 2
-        # print(width_of_problem)
+        
         # "rjust" will right-align a string, using a space as the default fill character
-        larger_number_width = max(len(first_operand), len(second_operand))
-        smaller_number_width = min(len(first_operand), len(second_operand))
-        difference_of_widths = (larger_number_width - smaller_number_width) + 1
-        # print(difference_of_widths)
-
         # Formatting of each problem is here
         first_line += str(first_operand.rjust(width_of_problem))
-        # print(first_line)
         second_line += str(operator + second_operand.rjust(width_of_problem - 1))
-        # print(second_line)
         dash_line += str("-" * width_of_problem)
-        # print(dash_line)
         answer_line += str(answer).rjust(width_of_problem)
-        # print(answer_line)
 
         if number_of_problems_left > 0:
-            # formatted_string = "{}    \n{}    \n{}    \n{}    \n".format(first_line, second_line, dash_line, answer_line)
             column_width = "    "
             first_line += column_width
             second_line += column_width
             dash_line += column_width
             answer_line += column_width
-        #else:
-        #    formatted_string = "{}\n{}\n{}\n{}\n".format(first_line, second_line, dash_line, answer_line)
 
         if answers == True:
             formatted_problems = (first_line + "\n" + second_line + "\n" + dash_line + "\n" + answer_line)
         else:
             formatted_problems = (first_line + "\n" + second_line + "\n" + dash_line)
     
-    return print(formatted_problems)
+    return formatted_problems
 
-arithmetic_arranger(["4 + 46", "434 - 56", "5345 + 1"], True)
+# arithmetic_arranger(["4 + 46", "434 - 56", "5345 + 1"], True)
