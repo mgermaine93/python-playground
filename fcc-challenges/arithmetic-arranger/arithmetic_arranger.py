@@ -70,5 +70,3 @@ def arithmetic_arranger(problems, answers=False):
             formatted_problems = (first_line + "\n" + second_line + "\n" + dash_line)
     
     return formatted_problems
-
-# arithmetic_arranger(["4 + 46", "434 - 56", "5345 + 1"], True)
