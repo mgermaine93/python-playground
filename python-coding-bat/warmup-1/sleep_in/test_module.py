@@ -1,7 +1,3 @@
-# sleep_in(False, False) → True
-# sleep_in(True, False) → False
-# sleep_in(False, True) → True
-
 import unittest
 from sleep_in import sleep_in
 
