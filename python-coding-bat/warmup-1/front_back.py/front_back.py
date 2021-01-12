@@ -5,6 +5,6 @@ def front_back(str):
         first_character = str[0]
         middle_characters = str[1:-1]
         last_character = str[len(str) - 1]
-        return last_character + middle_characters + first_character
+        return f"{last_character}{middle_characters}{first_character}"
     else:
         return str
