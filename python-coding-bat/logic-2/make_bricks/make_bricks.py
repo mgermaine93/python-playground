@@ -6,17 +6,11 @@ def make_bricks(small, big, goal):
     # False if not enough big
     # False if not enough small
     remainder = goal % 5
-    # Divisible by 5
-    if remainder == 0:
-        if (big * 5) >= goal:
-            return True
-        elif (big * 5) + small >= goal:
-            return True
-        elif small >= goal:
-            return True
-    # Not divisible by 5
-    elif (big * 5) + small >= goal:
-        return True
-    elif small >= goal:
-        return True
-    return False
+    total = (big * 5) + small
+    # Fail if not enough bricks, period
+    if goal > total:
+        return False
+    # Fail if not enough small bricks to make up the difference
+    if remainder > small:
+        return False
+    return True
