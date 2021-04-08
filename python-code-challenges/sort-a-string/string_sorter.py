@@ -34,6 +34,3 @@ def string_sorter(words):
     # remember to return a string, not a list
     string_to_return = " ".join(list_to_return)
     return string_to_return
-
-
-string_sorter("iguana yak ORANGE")
